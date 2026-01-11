@@ -14,3 +14,13 @@ node_modules
 
 # .DS_Store is only for Mac users
 **/.DS_Store
+
+# readme.md is ignored to prevent conflicts with
+# the readme.md that is automatically created on
+# github when a new repository is created.
+readme.md
+
+# node_modules/ folder can get very large, so we
+# ignore it to prevent unnecessary uploads to 
+# github.
+node_modules/
