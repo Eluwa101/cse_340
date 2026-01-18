@@ -24,3 +24,7 @@ readme.md
 # ignore it to prevent unnecessary uploads to 
 # github.
 node_modules/
+
+# .vscode/ folder contains local settings for
+# Visual Studio Code and can be ignored.
+.vscode/
