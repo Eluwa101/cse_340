@@ -1,0 +1,15 @@
+<!-- title -->
+<% if (title) { %>
+  <h1><%= title %></h1>
+<% } else { %>
+  <h1>404 – Well… this is awkward 😅</h1>
+<% } %>
+
+<!-- error message display -->
+<div class="error-message">
+  <% if (message) { %>
+    <p><%= message %></p>
+  <% } else { %>
+    <p>We looked everywhere, but this page has left the building.</p>
+  <% } %>
+</div>

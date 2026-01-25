@@ -160,8 +160,10 @@ nav li a:hover {
 /* Upgrade grid */
 .upgrade-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
   gap: 1rem;
+  /* margin-top: 1rem; */
+
 }
 
 .upgrade-grid figure {
@@ -174,12 +176,18 @@ nav li a:hover {
 .upgrade-grid img {
   max-width: 100%;
   border-radius: 5px;
+  object-fit: contain;
 }
 
 .upgrade-grid a {
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.2rem;
   color: #fff;
   font-weight: bold;
   text-decoration: none;
+  word-wrap: break-word;
+
 }
 
 /* Reviews list */
@@ -193,7 +201,73 @@ nav li a:hover {
   margin: 10px;
   padding: 10px;
   background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
+
+
+/* =========================
+   Responsive Inventory Grid Layouts
+   ========================= */
+#inv-display {
+  list-style: none;
+  margin: 1.5rem auto;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+#inv-display li {
+  border: 2px solid #0077aa;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  background: #ffffff;
+}
+
+#inv-display img {
+  width: 100%;
+  border-radius: 6px;
+  max-height: 150px;
+  object-fit: contain;
+}
+
+.namePrice hr {
+  border: none;
+  height: 2px;
+  background: #0077aa;
+  margin: 0.75rem 0;
+}
+
+.namePrice h2 {
+  font-size: 1.05rem;
+  margin: 0.25rem 0;
+}
+
+.namePrice a {
+  color: #0077aa;
+  text-decoration: none;
+}
+
+.namePrice a:hover {
+  text-decoration: underline;
+}
+
+.namePrice span {
+  display: block;
+  font-weight: bold;
+  color: #000000;
+  margin-top: 0.25rem;
+}
+
+.notice {
+  text-align: center;
+  color: #000000;
+  margin-top: 2rem;
+}
+
+
 
 /* =========================
    Responsive Layouts
@@ -210,16 +284,23 @@ nav li a:hover {
 }
 
 @media screen and (max-width: 768px) {
+  nav {
+    font-size: medium;
+  }
+
   nav ul {
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
   }
 
   nav li a {
-    width: 80%;
-    text-align: center;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+    width: auto;
   }
+}
 
   .review-upgrade .reviews,
   .review-upgrade .upgrades {
@@ -231,4 +312,4 @@ nav li a:hover {
     display: block;
     margin: 0 auto;
   }
-}
+
