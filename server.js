@@ -33,7 +33,7 @@ app.use(static)
 app.get("/", utilities.handleErrors(baseController.buildHome))
 
 // Inventory route
-app.use("/inv", inventoryRoute)
+app.use("/inv", utilities.handleErrors(inventoryRoute))
 
 
 

@@ -270,6 +270,63 @@ nav li a:hover {
 
 
 /* =========================
+   Vehicle Detail View
+   ========================= */
+
+.vehicle-detail-view {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 2rem;
+  margin: 2rem auto;
+  max-width: 1100px;
+}
+
+/* Vehicle image */
+.vehicle-detail-view img {
+  width: 100%;
+  border-radius: 10px;
+  border: 2px solid #0077aa;
+}
+
+/* Info panel */
+.vehicle-details-info {
+  background: #ffffff;
+  border: 2px solid #0077aa;
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+
+/* Title */
+.vehicle-details-info h2 {
+  margin-top: 0;
+  font-size: 1.6rem;
+  color: #000000;
+  border-bottom: 2px solid #0077aa;
+  padding-bottom: 0.5rem;
+}
+
+/* Detail rows */
+.vehicle-details-info p {
+  margin: 0.6rem 0;
+  font-size: 1rem;
+  color: #000000;
+}
+
+/* Price highlight */
+.vehicle-details-info p strong {
+  color: #0077aa;
+}
+
+/* Emphasize price */
+.vehicle-details-info p:nth-of-type(2) {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+
+
+
+/* =========================
    Responsive Layouts
    ========================= */
 @media screen and (min-width: 768px) {
