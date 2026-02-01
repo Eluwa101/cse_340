@@ -323,7 +323,75 @@ nav li a:hover {
   font-weight: bold;
 }
 
+/* 
+    =========================
+    Style the flash messages class
+    =========================
+ */
+.notice {
+  margin: 1rem 0;
+  padding: 10px;
+  list-style: none;
+  background-color: #005f8a;
+  color: #ffffff;
+  border-radius: 8px;
+  width: fit-content;
+  margin: 0 auto;
+}
 
+
+/* 
+    =========================
+    Form Styles
+    ========================= */
+form {
+  max-width: 500px;
+  margin: 1rem auto;
+  padding: 1rem;
+  border: 2px solid #0077aa;
+  border-radius: 10px;
+  background: #f9f9f9;
+}
+form
+label {
+  display: block;
+  margin-bottom: -0.5rem;
+  font-weight: bold;
+  color: #333333;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select, textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 75%;
+}
+#haveit {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+.form-button {
+  background-color: #0077aa;
+  color: #ffffff;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input:required:invalid, input:focus:invalid {
+  border-color: red;
+}
+input:required:valid {
+  border-color: green;
+}
 
 
 /* =========================

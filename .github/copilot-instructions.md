@@ -9,18 +9,23 @@ This is a **CSE Motors automotive inventory management system** - an Express.js 
 - **Database:** PostgreSQL (Render hosted)
 - **Package Manager:** PNPM (not npm)
 - **Dev Tool:** Nodemon (auto-restart on file changes)
+- **Session Management:** express-session with connect-pg-simple (stores sessions in PostgreSQL)
+- **Flash Messages:** connect-flash for one-time notifications
+- **Form Handling:** body-parser for POST request parsing
 
 ## Architecture & Key Components
 
 ### Server Structure (`server.js`)
 - **Entry point** - Requires utilities, routes, and controllers
-- **Middleware order:** Static files → Utilities → Route handlers → 404 handler → Error middleware
+- **Middleware order:** Session → Body Parser → Messages → Static files → Routes → 404 handler → Error middleware
 - **View engine:** EJS with layouts at `views/layouts/layout.ejs` (NOT in views root)
 - **Routes:** 
   - Home route wrapped in `utilities.handleErrors()`: `app.get("/", utilities.handleErrors(baseController.buildHome))`
   - Inventory routes mounted at `/inv`: `app.use("/inv", inventoryRoute)`
+  - Account routes mounted at `/account`: `app.use("/account", accountRoute)`
 - **Error handling:** 404 middleware → Express error handler (must be last route)
-- **Environment:** Uses `.env` file for PORT (5500), HOST (localhost), DATABASE_URL, NODE_ENV
+- **Session management:** PostgreSQL session store with express-session; SESSION_SECRET in .env
+- **Environment:** Uses `.env` file for PORT (5500), HOST (localhost), DATABASE_URL, NODE_ENV, SESSION_SECRET
 
 ### Database Connection (`database/index.js`)
 - **Pool-based connection** using `pg` package with environment-based configuration
@@ -33,7 +38,10 @@ This is a **CSE Motors automotive inventory management system** - an Express.js 
 - **inventory-model.js** - Database query functions using prepared statements ($1, $2 parameters)
   - `getClassifications()` - Fetches all vehicle classifications
   - `getInventoryByClassificationId(id)` - Joins inventory and classification tables
-- **Pattern:** Async functions that query pool and return `.rows` array
+  - `getInventoryItemById(id)` - Fetches single vehicle by ID
+- **accountModel.js** - Account management database functions
+  - `registerAccount(firstname, lastname, email, password)` - Inserts new account into database
+- **Pattern:** Async functions that query pool and return `.rows` or single row
 - **Error handling:** Try-catch with console.error logging
 
 ### Controllers (`controllers/`)
@@ -41,12 +49,23 @@ This is a **CSE Motors automotive inventory management system** - an Express.js 
 - **invController.js** - Handles inventory display routes
   - Pattern: Extract route params → Query model → Build view HTML via utilities → res.render()
   - Example: `invCont.buildByClassificationId()` - gets classificationId, queries model, builds grid, renders view
+  - `triggerError()` - Intentional error handler for testing error middleware
+- **accountController.js** - Handles user authentication and account management
+  - `buildLogin()` - Delivers login form view
+  - `buildRegister()` - Delivers registration form view
+  - `registerAccount()` - Processes registration form, hashes password, inserts into database
+  - Uses flash messages for user feedback
 - **Wrapping pattern:** All controller functions wrapped in `utilities.handleErrors()` in routes
 
 ### Routing Pattern (`routes/`)
 - **static.js** - Serves `public/` folder with explicit route handlers
 - **inventoryRoutes.js** - Dynamic inventory routes (e.g., `/inv/type/:classificationId`)
-  - Uses Express router pattern with `.get()` methods
+  - Uses Express router pattern with `.get()` and `.post()` methods
+  - Includes intentional error route: `GET /inv/error` for testing error handling
+- **accountRoute.js** - User authentication and account management routes
+  - `GET /account/login` - Delivers login form
+  - `GET /account/register` - Delivers registration form
+  - `POST /account/register` - Processes registration submission with form validation
 
 ### Utilities (`utilities/index.js`)
 - **getNav()** - Builds navigation HTML list from all classifications; used by every rendered page
@@ -61,10 +80,13 @@ This is a **CSE Motors automotive inventory management system** - an Express.js 
   - `head.ejs` - Meta tags, stylesheets
   - `header.ejs` - Top section
   - `navigation.ejs` - Nav menu
-  - `footer.ejs` - Footer
+  - `footer.ejs` - Footer with error test link
 - **Pages:**
   - `index.ejs` - Home page showing DMC Delorean vehicle
   - `inventory/classification.ejs` - Vehicle list grid for each classification
+  - `inventory/detail.ejs` - Single vehicle detail view
+  - `account/login.ejs` - User login form
+  - `account/register.ejs` - New account registration form
   - `errors/error.ejs` - Error page with title and message
 - **EJS Syntax:** Use `<%- include() %>` for partials, `<%- body %>` for page content, `<%= var %>` for interpolation
 
@@ -116,14 +138,16 @@ Visit `http://localhost:5500` in browser. Serves `/public` static files; home ro
 
 ## Project Conventions & Patterns
 
+## Project Conventions & Patterns
+
 ### File Organization
 - **`public/`** - All static assets (CSS, JS, images) served directly; never require authentication
 - **`views/`** - EJS templates; always follow `layouts/` hierarchy with partials
 - **`database/`** - SQL DDL and seed data; schema uses snake_case (inv_id, classification_name)
-- **`controllers/`** - Route handler functions: `baseController.js`, `invController.js`
-- **`models/`** - Database query functions: `inventory-model.js`
-- **`routes/`** - Route definitions: `static.js`, `inventoryRoutes.js`
-- **`utilities/`** - Shared utility functions: `getNav()`, `buildClassificationGrid()`, `handleErrors()`
+- **`controllers/`** - Route handler functions: `baseController.js`, `invController.js`, `accountController.js`
+- **`models/`** - Database query functions: `inventory-model.js`, `accountModel.js`
+- **`routes/`** - Route definitions: `static.js`, `inventoryRoutes.js`, `accountRoute.js`
+- **`utilities/`** - Shared utility functions: `getNav()`, `buildClassificationGrid()`, `buildVehicleDetailView()`, `handleErrors()`
 
 ### Naming Conventions
 - **Database:** snake_case (inv_id, inv_make, classification_id, account_type)
@@ -132,10 +156,11 @@ Visit `http://localhost:5500` in browser. Serves `/public` static files; home ro
 - **JavaScript variables:** camelCase (port, host, DATABASE_URL from env)
 
 ### Environment Management
-- `.env` file stores PORT, HOST, DATABASE_URL
+- `.env` file stores PORT, HOST, DATABASE_URL, NODE_ENV, SESSION_SECRET
 - **Never commit `.env`** - only commit `.env.example` template if needed
 - Uses `dotenv` package (`require('dotenv').config()`) to load variables into `process.env`
 - Render.com PostgreSQL connection string included in `.env`
+- SESSION_SECRET required for express-session (can be any string, used to sign session cookies)
 
 ### Image Paths
 - Vehicle images: `public/images/vehicles/` (e.g., delorean.jpg)
@@ -164,14 +189,18 @@ Visit `http://localhost:5500` in browser. Serves `/public` static files; home ro
 ### Express Middleware Order (in `server.js`)
 1. Load environment variables: `require('dotenv').config()`
 2. Initialize Express app
-3. Set view engine: `app.set('view engine', 'ejs')`
-4. Use layout middleware: `app.use(expressLayouts)`
-5. Set layout path: `app.set('layout', './layouts/layout')`
-6. Register static routes: `app.use(static)`
-7. Register home route: `app.get("/", utilities.handleErrors(baseController.buildHome))`
-8. Register inventory routes: `app.use("/inv", inventoryRoute)`
-9. 404 middleware: `app.use(async (req, res, next) => next({ status: 404, message: ... }))`
-10. Error handler (MUST be last): `app.use(async (err, req, res, next) => { ... })`
+3. **Session middleware:** `app.use(session({...}))` - Stores sessions in PostgreSQL
+4. **Body parser middleware:** `app.use(bodyParser.urlencoded())` and `.json()` - Parses form/JSON data
+5. **Flash messages middleware:** `app.use(require('connect-flash')())` - One-time notifications
+6. Set view engine: `app.set('view engine', 'ejs')`
+7. Use layout middleware: `app.use(expressLayouts)`
+8. Set layout path: `app.set('layout', './layouts/layout')`
+9. Register static routes: `app.use(static)`
+10. Register home route: `app.get("/", utilities.handleErrors(baseController.buildHome))`
+11. Register inventory routes: `app.use("/inv", inventoryRoute)`
+12. Register account routes: `app.use("/account", accountRoute)`
+13. 404 middleware: `app.use(async (req, res, next) => next({ status: 404, message: ... }))`
+14. Error handler (MUST be last): `app.use(async (err, req, res, next) => { ... })`
 
 ### Error Handling Pattern
 - **All async route handlers wrapped with `utilities.handleErrors()`** - Catches promise rejections and passes to Express error handler
@@ -244,14 +273,21 @@ Visit `http://localhost:5500` in browser. Serves `/public` static files; home ro
 - Builds HTML list with home link + classification links to `/inv/type/{id}`
 - Passed to every view render to populate `navigation.ejs` partial
 
+### Session & Authentication Flow
+- **Session creation:** Express-session stores session data in PostgreSQL via connect-pg-simple
+- **Registration flow:** `POST /account/register` → `accountController.registerAccount()` → `accountModel.registerAccount()` → Database INSERT
+- **Success:** Redirects to login with flash message; Failure: Re-renders register form with error message
+- **Flash messages:** Set via `req.flash('notice', 'message')` and accessed in views via `messages()` helper
+
 ## Known Limitations & Future Work
 
-- **Limited routes:** Only home and inventory classification views implemented; detail view, form handling, and CRUD operations pending
-- **No authentication system yet** - Account types defined in DB schema but not implemented
-- **No form handling** - No POST route middleware for vehicle updates or purchases
-- **No DELETE/UPDATE operations** - Only SELECT queries in models
+- **Limited routes:** Only home, inventory classification/detail, and account login/register views implemented
+- **No authentication validation** - Login form created but not processing; password hashing not yet implemented
+- **No form validation** - Registration accepts inputs without validation; should add server-side validation
+- **No DELETE/UPDATE operations** - Only SELECT and INSERT queries in models
+- **Session management enabled** - Infrastructure ready but login logic not yet enforced on protected routes
 
 ---
 
-**Last Updated:** January 25, 2026
-**Status:** Core MVC architecture implemented; home and inventory classification views complete; vehicle detail view and form handling pending
+**Last Updated:** February 1, 2026
+**Status:** Core MVC architecture implemented; home and inventory classification/detail views complete; account login/register forms created; password hashing and session authentication pending

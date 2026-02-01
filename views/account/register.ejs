@@ -1,0 +1,29 @@
+<title><%= title %></title>
+<h1><%= title %></h1>
+<%- messages() %>
+
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+
+<form method="POST" action="/account/register">
+    <label for="account_firstname">First Name</label><br>
+    <input type="text" name="account_firstname" id="account_firstname" required value="<%= locals.account_firstname || '' %>"><br><br>
+    <label for="account_lastname">Last Name</label><br>
+    <input type="text" name="account_lastname" id="account_lastname" required value="<%= locals.account_lastname || '' %>"><br><br>
+    <label for="account_email">Email Address</label><br>
+    <input type="email" name="account_email" id="account_email" required value="<%= locals.account_email || '' %>"><br><br>
+    <label for="account_password">Password</label><br>
+    <input type="password" name="account_password" id="account_password" 
+    pattern="(?=^.{12,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" 
+    title="Password must be at least 12 characters long and contain at least 1 capital letter, 1 number, and 1 special character." 
+    required><br><br>
+    <button type="submit" class="form-button">Register</button>
+    <input type="hidden" name="action" value="register">
+</form>
+<p id="haveit">Already have an account? <a href="/account/login">Login here.</a></p>
