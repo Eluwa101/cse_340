@@ -1,6 +1,6 @@
 <title><%= title %></title>
 <h1><%= title %></h1>
-<%- messages() %>
+<%#- messages() %>
 
 <% if (errors) { %>
   <ul class="notice">
@@ -14,8 +14,12 @@
     <label for="account_email">Email Address</label><br>
     <input type="email" name="account_email" id="account_email" required value="<%= locals.account_email %>" ><br><br>
     <label for="account_password">Password</label><br>
-    <input type="password" name="account_password" id="account_password" required><br><br>
+    <div class="password-wrap">
+      <input type="password" name="account_password" id="account_password" required>
+      <button type="button" class="toggle-password" aria-pressed="false" aria-label="Show password">👁</button>
+    </div>
+    <br>
     <button type="submit" class="form-button">Login</button>
     <input type="hidden" name="action" value="login">
 </form>
-<p id="haveit">Don't have an account? <a href="/account/register">Register here.</a>
+<p id="haveit">Don't have an account? <a href="/account/register">Register here.</a> </p>

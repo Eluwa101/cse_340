@@ -1,6 +1,6 @@
 <title><%= title %></title>
 <h1><%= title %></h1>
-<%- messages() %>
+<%#- messages() %>
 
 <% if (errors) { %>
   <ul class="notice">
@@ -19,10 +19,14 @@
     <label for="account_email">Email Address</label><br>
     <input type="email" name="account_email" id="account_email" required value="<%= locals.account_email || '' %>"><br><br>
     <label for="account_password">Password</label><br>
-    <input type="password" name="account_password" id="account_password" 
-    pattern="(?=^.{12,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" 
-    title="Password must be at least 12 characters long and contain at least 1 capital letter, 1 number, and 1 special character." 
-    required><br><br>
+    <div class="password-wrap">
+      <input type="password" name="account_password" id="account_password" 
+      pattern="(?=^.{12,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$" 
+      title="Password must be at least 12 characters long and contain at least 1 capital letter, 1 number, and 1 special character." 
+      required>
+      <button type="button" class="toggle-password" aria-pressed="false" aria-label="Show password">👁</button>
+    </div>
+    <br>
     <button type="submit" class="form-button">Register</button>
     <input type="hidden" name="action" value="register">
 </form>

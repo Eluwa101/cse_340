@@ -384,6 +384,7 @@ select, textarea {
   font-size: 1rem;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  margin-top: 10px;
 }
 
 input:required:invalid, input:focus:invalid {
@@ -438,3 +439,35 @@ input:required:valid {
     margin: 0 auto;
   }
 
+
+/* =========================
+   Password Toggle Styles
+   ========================= */
+.password-wrap {
+  position: relative;
+  display: inline-block;
+  width: 75%;
+}
+
+.password-wrap input {
+  width: 100%;
+  padding-right: 2.6rem; /* space for the toggle */
+}
+
+.toggle-password {
+  position: absolute;
+  right: 0.45rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 0.25rem;
+  color: #0077aa;
+}
+
+.toggle-password:focus {
+  outline: 2px solid #005f8a;
+  border-radius: 4px;
+}
