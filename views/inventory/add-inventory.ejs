@@ -21,7 +21,7 @@
       required 
       pattern="[a-zA-Z0-9\s]+"
       title="Make can only contain letters, numbers, and spaces"
-      value="<%= typeof inv_make !== 'undefined' ? inv_make : '' %>"
+      value="<%= locals.inv_make || '' %>"
       placeholder="e.g., Chevrolet"
     >
 
@@ -32,7 +32,7 @@
       required 
       min="1900"
       max="2100"
-      value="<%= typeof inv_year !== 'undefined' ? inv_year : '' %>"
+      value="<%= locals.inv_year || '' %>"
       placeholder="e.g., 2020"
     >
 
@@ -43,7 +43,7 @@
       required 
       pattern="[a-zA-Z0-9\s]+"
       title="Model can only contain letters, numbers, and spaces"
-      value="<%= typeof inv_model !== 'undefined' ? inv_model : '' %>"
+      value="<%= locals.inv_model || '' %>"
       placeholder="e.g., Silverado"
     >
 
@@ -53,14 +53,14 @@
       required 
       minlength="10"
       placeholder="Enter vehicle description (minimum 10 characters)"
-    ><%= typeof inv_description !== 'undefined' ? inv_description : '' %></textarea>
+    ><%= locals.inv_description || '' %></textarea>
 
     <label for="inv_image">Image Path:</label>
     <input 
       type="text" 
       name="inv_image" 
       required 
-      value="<%= typeof inv_image !== 'undefined' ? inv_image : '' %>"
+      value="<%= locals.inv_image || '' %>"
       placeholder="e.g., /images/vehicles/no-image.png"
     >
 
@@ -69,7 +69,7 @@
       type="text" 
       name="inv_thumbnail" 
       required 
-      value="<%= typeof inv_thumbnail !== 'undefined' ? inv_thumbnail : '' %>"
+      value="<%= locals.inv_thumbnail || '' %>"
       placeholder="e.g., /images/vehicles/no-image.png"
     >
 
@@ -80,7 +80,7 @@
       required 
       step="0.01"
       min="0"
-      value="<%= typeof inv_price !== 'undefined' ? inv_price : '' %>"
+      value="<%= locals.inv_price || '' %>"
       placeholder="0.00"
     >
 
@@ -90,7 +90,7 @@
       name="inv_miles" 
       required 
       min="0"
-      value="<%= typeof inv_miles !== 'undefined' ? inv_miles : '' %>"
+      value="<%= locals.inv_miles || '' %>"
       placeholder="0"
     >
 
@@ -101,7 +101,7 @@
       required 
       pattern="[a-zA-Z\s]+"
       title="Color can only contain letters and spaces"
-      value="<%= typeof inv_color !== 'undefined' ? inv_color : '' %>"
+      value="<%= locals.inv_color || '' %>"
       placeholder="e.g., Red"
     >
 

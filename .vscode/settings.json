@@ -10,8 +10,8 @@
             "previewLimit": 50,
             "server": "localhost",
             "driver": "PostgreSQL",
-            "name": "cse340_wnt",
-            "connectString": "postgresql://cse340_wnt:DlShUWAZhvCbpVhd3b73OLEalLPAGvVc@dpg-d5mhgpcoud1c739d0arg-a.virginia-postgres.render.com/cse340_wnt"
+            "name": "my_db",
+            "connectString": "postgresql://my_db:X4FIxdPaN4bbfWJw6GSTJBJMvhoty5Vf@dpg-d6259aonputs739fk770-a.virginia-postgres.render.com/my_db_l54h"
         }
     ]
 }
