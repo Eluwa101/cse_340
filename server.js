@@ -5,6 +5,7 @@
 /* ***********************
  * Require Statements
  *************************/
+const cookieParser = require("cookie-parser")
 const bodyParser = require("body-parser")
 const pool = require("./database/")
 const session = require("express-session")
@@ -37,6 +38,12 @@ const static = require("./routes/static")
 // Body Parser Middleware
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
+
+// use cookie parser
+app.use(cookieParser())
+
+// custom middleware to check JWT token and set account data in res.locals
+app.use(utilities.checkJWTToken)
 
 
 // Express Messages Middleware

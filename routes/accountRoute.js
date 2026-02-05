@@ -17,14 +17,15 @@ router.get(
 // Route to handle the POST register form submission
 router.post("/register", regValidate.registationRules(), regValidate.checkRegData, handleErrors(accountController.registerAccount))
 
-// Process the login attempt(temporary route for now)
+// Process the login attempt
 router.post(
   "/login", 
   regValidate.loginRules(), 
   regValidate.checkLoginData,
-  (req, res) => {
-    res.status(200).send('login process')
-  }
+  handleErrors(accountController.accountLogin)
 )
+
+// default route for accounts
+router.get("/", handleErrors(accountController.buildAccount))
 
 module.exports = router;
