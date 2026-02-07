@@ -26,6 +26,6 @@ router.post(
 )
 
 // default route for accounts
-router.get("/", handleErrors(accountController.buildAccount))
+router.get("/", utilities.checkLogin, handleErrors(accountController.accountManagement))
 
 module.exports = router;

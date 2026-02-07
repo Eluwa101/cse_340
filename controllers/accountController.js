@@ -31,17 +31,18 @@ async function buildRegister(req, res, next) {
 /* ****************************************
 *  Deliver account view
 * *************************************** */
-async function buildAccount(req, res, next) {
+async function accountManagement(req, res, next) {
   let nav = await utilities.getNav()
-  if (!req.session.accountData) {
+  const accountData = req.session.accountData || res.locals.accountData
+  if (!accountData) {
     req.flash("notice", "Please log in to access your account.")
     return res.redirect("/account/login")
   }
   res.render("account/account", {
-    title: "Account",
+    title: "Account Management",
     nav,
     errors: null,
-    account_firstname: req.session.accountData.account_firstname,
+    account_firstname: accountData.account_firstname,
   })
 }
 
@@ -131,4 +132,4 @@ async function accountLogin(req, res) {
   }
 }
 
-module.exports = { buildLogin, buildRegister, buildAccount, registerAccount, accountLogin }
+module.exports = { buildLogin, buildRegister, accountManagement, registerAccount, accountLogin }
