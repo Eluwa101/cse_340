@@ -411,7 +411,155 @@ input:required:valid {
   border-color: green;
 }
 
+/* 
+    =========================
+    Account Update Styles
+    =========================
+ */
+#account-update {
+  max-width: 720px;
+  margin: 1.5rem auto;
+  padding: 0 0.5rem;
+}
 
+#account-update h2 {
+  margin-top: 1.5rem;
+  color: #0077aa;
+}
+
+#account-update .form-note {
+  color: #444444;
+  margin-top: -0.25rem;
+}
+
+.account-summary {
+  max-width: 600px;
+  margin: 0.5rem auto 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #cfe6f3;
+  border-radius: 8px;
+  background: #f5f5f5;
+}
+
+.account-summary p {
+  margin: 0.25rem 0;
+}
+
+
+/* 
+    =========================
+    Inventory management Select Classification Styles
+    =========================
+ */
+
+#inv-management #classificationList {
+  display: block;
+  width: 100%;
+  max-width: 460px;
+  margin: 0.5rem auto 1rem;
+  padding: 0.6rem 2.25rem 0.6rem 0.85rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0a3a52;
+  background-color: #ffffff;
+  border: 2px solid #0077aa;
+  border-radius: 10px;
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, #0077aa 50%),
+    linear-gradient(135deg, #0077aa 50%, transparent 50%),
+    linear-gradient(to right, #e6f2f8, #e6f2f8);
+  background-position:
+    calc(100% - 1.1rem) calc(50% - 3px),
+    calc(100% - 0.85rem) calc(50% - 3px),
+    calc(100% - 2.2rem) 50%;
+  background-size:
+    6px 6px,
+    6px 6px,
+    1px 60%;
+  background-repeat: no-repeat;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#inv-management #classificationList:focus {
+  outline: none;
+  border-color: #005f8a;
+  box-shadow: 0 0 0 3px rgba(0, 119, 170, 0.2);
+}
+
+#inv-management .management-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+#inv-management .management-links a {
+  display: inline-block;
+  padding: 0.5rem 0.9rem;
+  border: 2px solid #0077aa;
+  border-radius: 8px;
+  color: #0077aa;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+#inv-management .management-links a:hover {
+  background: #0077aa;
+  color: #ffffff;
+}
+
+#inventoryDisplay {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: #ffffff;
+}
+
+#inventoryDisplay th,
+#inventoryDisplay td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid #d9e3ea;
+  text-align: left;
+}
+
+#inventoryDisplay th {
+  background: #e6f2f8;
+  color: #005f8a;
+}
+
+#inventoryDisplay tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+#inventoryDisplay a {
+  color: #0077aa;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+#inventoryDisplay a:hover {
+  text-decoration: underline;
+}
+
+
+/* 
+    =========================
+    Delete Confirmation Styles
+    =========================
+ */
+#delete-inventory {
+  max-width: 640px;
+  margin: 1.5rem auto;
+  padding: 0 0.5rem;
+}
+
+#delete-inventory p {
+  color: #8a0000;
+  font-weight: 700;
+}
 
 
 /* =========================

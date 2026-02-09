@@ -137,6 +137,39 @@ Util.checkLogin = (req, res, next) => {
   return res.redirect("/account/login")
 }
 
+/* ******************************
+* Middleware to check account type
+* ***************************** */
+Util.checkAccountType = async (req, res, next) => {
+  try {
+    const accountData = req.session.accountData || res.locals.accountData
+    if (!accountData) {
+      const nav = await Util.getNav()
+      req.flash("notice", "Please log in.")
+      return res.status(401).render("account/login", {
+        title: "Login",
+        nav,
+        errors: null,
+        account_email: ""
+      })
+    }
+    const accountType = (accountData.account_type || "").toLowerCase()
+    if (accountType === "employee" || accountType === "admin") {
+      return next()
+    }
+    const nav = await Util.getNav()
+    req.flash("notice", "You do not have permission to access that resource.")
+    return res.status(403).render("account/login", {
+      title: "Login",
+      nav,
+      errors: null,
+      account_email: accountData.account_email || ""
+    })
+  } catch (error) {
+    return next(error)
+  }
+}
+
 
 /* ******************************
 * Middleware for handling Errors

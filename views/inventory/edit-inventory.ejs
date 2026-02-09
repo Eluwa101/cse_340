@@ -1,0 +1,113 @@
+<div id="add-inventory">
+  <h1>Update Vehicle Data</h1>
+
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+  <form id="updateForm" method="post" action="/inv/update">
+    <input type="hidden" name="inv_id" value="<%= locals.inv_id %>">
+    
+    <label for="classificationList">Classification:</label>
+    <%- classificationList %>
+
+    <label for="inv_make">Make:</label>
+    <input 
+      type="text" 
+      name="inv_make" 
+      required 
+      pattern="[a-zA-Z0-9\s]+"
+      title="Make can only contain letters, numbers, and spaces"
+      value="<%= locals.inv_make || '' %>"
+      placeholder="e.g., Chevrolet"
+    >
+
+    <label for="inv_year">Year:</label>
+    <input 
+      type="number" 
+      name="inv_year" 
+      required 
+      min="1900"
+      max="2100"
+      value="<%= locals.inv_year || '' %>"
+      placeholder="e.g., 2020"
+    >
+
+    <label for="inv_model">Model:</label>
+    <input 
+      type="text" 
+      name="inv_model" 
+      required 
+      pattern="[a-zA-Z0-9\s]+"
+      title="Model can only contain letters, numbers, and spaces"
+      value="<%= locals.inv_model || '' %>"
+      placeholder="e.g., Silverado"
+    >
+
+    <label for="inv_description">Description:</label>
+    <textarea 
+      name="inv_description" 
+      required 
+      minlength="10"
+      placeholder="Enter vehicle description (minimum 10 characters)"
+    ><%= locals.inv_description || '' %></textarea>
+
+    <label for="inv_image">Image Path:</label>
+    <input 
+      type="text" 
+      name="inv_image" 
+      required 
+      value="<%= locals.inv_image || '' %>"
+      placeholder="e.g., /images/vehicles/no-image.png"
+    >
+
+    <label for="inv_thumbnail">Thumbnail Path:</label>
+    <input 
+      type="text" 
+      name="inv_thumbnail" 
+      required 
+      value="<%= locals.inv_thumbnail || '' %>"
+      placeholder="e.g., /images/vehicles/no-image.png"
+    >
+
+    <label for="inv_price">Price:</label>
+    <input 
+      type="number" 
+      name="inv_price" 
+      required 
+      step="0.01"
+      min="0"
+      value="<%= locals.inv_price || '' %>"
+      placeholder="0.00"
+    >
+
+    <label for="inv_miles">Miles:</label>
+    <input 
+      type="number" 
+      name="inv_miles" 
+      required 
+      min="0"
+      value="<%= locals.inv_miles || '' %>"
+      placeholder="0"
+    >
+
+    <label for="inv_color">Color:</label>
+    <input 
+      type="text" 
+      name="inv_color" 
+      required 
+      pattern="[a-zA-Z\s]+"
+      title="Color can only contain letters and spaces"
+      value="<%= locals.inv_color || '' %>"
+      placeholder="e.g., Red"
+    >
+
+    <button class="form-button" type="submit" disabled>Update Vehicle</button>
+  </form>
+
+  <script src="/js/inv-update.js"></script>
+</div>

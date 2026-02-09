@@ -9,5 +9,18 @@
  </ul>
 <% } %>
 
-<h2>Welcome <%= account_firstname %>!</h2>
-<p>You are now logged in to your account.</p>
+<% const accountType = (account_type || "").toLowerCase() %>
+
+<h2>Welcome <%= account_firstname %></h2>
+
+<div class="account-summary">
+  <p><strong>Name:</strong> <%= account_firstname %> <%= account_lastname %></p>
+  <p><strong>Email:</strong> <%= account_email %></p>
+</div>
+
+<p><a href="/account/update/<%= account_id %>">Update Account Information</a></p>
+
+<% if (accountType === "employee" || accountType === "admin") { %>
+  <h3>Inventory Management</h3>
+  <p><a href="/inv/">Manage Inventory</a></p>
+<% } %>
