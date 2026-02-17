@@ -44,6 +44,8 @@ app.use(cookieParser())
 
 // custom middleware to check JWT token and set account data in res.locals
 app.use(utilities.checkJWTToken)
+// custom middleware to set favorites count
+app.use(utilities.setFavoritesCount)
 
 
 // Express Messages Middleware

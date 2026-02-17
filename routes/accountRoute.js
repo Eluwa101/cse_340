@@ -2,8 +2,10 @@ const express = require("express")
 const router = new express.Router()
 const utilities = require("../utilities")
 const accountController = require("../controllers/accountController")
+const favoriteController = require("../controllers/favoriteController")
 const handleErrors = require("../utilities").handleErrors
 const regValidate = require("../utilities/account-validation")
+const favValidate = require("../utilities/favorite-validation")
 
 // Route to deliver the account login view
 router.get("/login", handleErrors(accountController.buildLogin))
@@ -47,6 +49,23 @@ router.post(
   regValidate.passwordRules(),
   regValidate.checkPasswordData,
   handleErrors(accountController.updatePassword)
+)
+
+// Favorites routes
+router.get("/favorites", utilities.checkLogin, handleErrors(favoriteController.buildFavorites))
+router.post(
+  "/favorites/add",
+  utilities.checkLogin,
+  favValidate.favoriteRules(),
+  favValidate.checkFavoriteData,
+  handleErrors(favoriteController.addFavorite)
+)
+router.post(
+  "/favorites/remove",
+  utilities.checkLogin,
+  favValidate.favoriteRules(),
+  favValidate.checkFavoriteData,
+  handleErrors(favoriteController.removeFavorite)
 )
 
 // Route to logout

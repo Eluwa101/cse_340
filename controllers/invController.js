@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator")
 const invModel = require("../models/inventory-model")
+const favoriteModel = require("../models/favorite-model")
 const utilities = require("../utilities/")
 
 const invCont = {}
@@ -35,11 +36,18 @@ invCont.buildByVehicleId = async function (req, res, next) {
   if (!data) {
     return next({ status: 404, message: "Vehicle not found" })
   }
-  const detailView = await utilities.buildVehicleDetailView(data)
+  let favoriteExists = false
+  const accountData = req.session.accountData || res.locals.accountData
+  if (accountData) {
+    const favorite = await favoriteModel.checkFavorite(accountData.account_id, data.inv_id)
+    favoriteExists = !!favorite
+  }
   res.render("./inventory/detail", {
     title: data.inv_make + " " + data.inv_model,
     nav,
-    detailView,
+    vehicle: data,
+    favoriteExists,
+    inv_id: data.inv_id,
     errors: null
   })
 }

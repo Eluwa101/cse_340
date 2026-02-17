@@ -4,7 +4,44 @@
     res.redirect("/")<% } %>
 
 <!-- Vehicle Detail View -->
-<%- detailView %>
+<div class="vehicle-detail-view">
+  <div class="vehicle-media">
+    <img src="<%= vehicle.inv_image %>" alt="Image of <%= vehicle.inv_make %> <%= vehicle.inv_model %> on CSE Motors" />
+
+    <div class="media-actions">
+<% if (locals.loggedin) { %>
+      <% if (favoriteExists) { %>
+        <form class="favorite-form" method="post" action="/account/favorites/remove">
+          <input type="hidden" name="inv_id" value="<%= vehicle.inv_id %>">
+          <button type="submit" class="form-button small-button">Remove Favorite</button>
+        </form>
+      <% } else { %>
+        <form class="favorite-form" method="post" action="/account/favorites/add">
+          <input type="hidden" name="inv_id" value="<%= vehicle.inv_id %>">
+          <input type="hidden" name="returnTo" value="/inv/detail/<%= vehicle.inv_id %>">
+          <button type="submit" class="form-button">Save to Favorites</button>
+        </form>
+      <% } %>
+    <% } else { %>
+      <p><a href="/account/login">Log in</a> to save this vehicle to your favorites.</p>
+    <% } %>
+    </div>
+  </div>
+
+  <div class="vehicle-details-info">
+    <h2><%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %></h2>
+    <p><strong>Year:</strong> <%= vehicle.inv_year %></p>
+    <p><strong>Price:</strong> $<%= new Intl.NumberFormat('en-US').format(vehicle.inv_price) %></p>
+    <p><strong>Description:</strong> <%= vehicle.inv_description %></p>
+    <p><strong>Miles:</strong> <%= new Intl.NumberFormat('en-US').format(vehicle.inv_miles) %></p>
+    <p><strong>Color:</strong> <%= vehicle.inv_color %></p>
+
+    <div class="detail-actions">
+      <a class="form-button buy-now" href="https://api.whatsapp.com/send/?phone=2349134846401&text=Hi%20Eluwa%2C%20how%20much%20is%20this%20vehicle%3F%20When%20can%20I%20come%20in%20for%20a%20test%20drive%3F&type=phone_number&app_absent=0
+" target="_blank" rel="noopener">Buy Now</a>
+    </div>
+  </div>
+</div>
 
 <!-- message display -->
 <%# message() %>

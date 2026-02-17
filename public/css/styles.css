@@ -404,6 +404,11 @@ textarea {
   width: 100%;
 }
 
+a.form-button {
+  text-decoration: none;
+  text-align: center;
+}
+
 input:required:invalid, input:focus:invalid {
   border-color: red;
 }
@@ -559,6 +564,86 @@ input:required:valid {
 #delete-inventory p {
   color: #8a0000;
   font-weight: 700;
+}
+
+/* 
+    =========================
+    Favorites Styles
+    =========================
+ */
+.favorites-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: #ffffff;
+}
+
+.favorites-table th,
+.favorites-table td {
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid #d9e3ea;
+  text-align: left;
+}
+
+.favorites-table th {
+  background: #e6f2f8;
+  color: #005f8a;
+}
+
+.favorites-table tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+a.form-button.small-button{
+  color: #ffffff;
+}
+
+.favorites-table a {
+  color: #0077aa;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.favorites-table a:hover {
+  text-decoration: none;
+}
+
+.favorites-table .favorite-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.favorite-form {
+  max-width: 520px;
+  margin: 1rem auto;
+}
+
+.small-button {
+  padding: 0.4rem 0.7rem;
+  font-size: 0.9rem;
+  width: auto;
+}
+
+.detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin: 1rem 0 0.5rem;
+}
+
+.vehicle-media {
+  display: flex;
+  flex-direction: column;
+}
+
+.media-actions {
+  margin-top: 0.75rem;
+}
+
+.vehicle-details-info .detail-actions {
+  margin-top: 1rem;
 }
 
 

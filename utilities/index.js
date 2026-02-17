@@ -115,6 +115,7 @@ Util.checkJWTToken = (req, res, next) => {
     if (err) {
      req.flash("notice", "Please log in.")
      res.clearCookie("jwt")
+     res.locals.loggedin = 0
      return res.redirect("/account/login")
     }
     res.locals.accountData = accountData
@@ -122,6 +123,7 @@ Util.checkJWTToken = (req, res, next) => {
     next()
    })
  } else {
+  res.locals.loggedin = 0
   next()
  }
 }
@@ -167,6 +169,26 @@ Util.checkAccountType = async (req, res, next) => {
     })
   } catch (error) {
     return next(error)
+  }
+}
+
+/* ******************************
+* Middleware to set favorites count
+* ***************************** */
+Util.setFavoritesCount = async (req, res, next) => {
+  try {
+    const accountData = req.session.accountData || res.locals.accountData
+    if (!accountData) {
+      res.locals.favoritesCount = 0
+      return next()
+    }
+    const favoriteModel = require("../models/favorite-model")
+    const count = await favoriteModel.getFavoriteCountByAccountId(accountData.account_id)
+    res.locals.favoritesCount = count || 0
+    return next()
+  } catch (error) {
+    res.locals.favoritesCount = 0
+    return next()
   }
 }
 

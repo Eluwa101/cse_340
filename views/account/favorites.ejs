@@ -1,0 +1,43 @@
+<h1><%= title %></h1>
+
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<% if (!favorites || favorites.length === 0) { %>
+  <p>You don't have any favorites yet.</p>
+<% } else { %>
+  <table class="favorites-table">
+    <thead>
+      <tr>
+        <th>Vehicle</th>
+        <th>Year</th>
+        <th>Price</th>
+        <th>&nbsp;</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% favorites.forEach(fav => { %>
+      <tr>
+        <td>
+          <a href="/inv/detail/<%= fav.inv_id %>"><%= fav.inv_make %> <%= fav.inv_model %></a>
+        </td>
+        <td><%= fav.inv_year %></td>
+        <td>$<%= new Intl.NumberFormat('en-US').format(fav.inv_price) %></td>
+        <td class="favorite-actions">
+          <form method="post" action="/account/favorites/remove">
+            <input type="hidden" name="inv_id" value="<%= fav.inv_id %>">
+            <button type="submit" class="form-button small-button">Remove</button>
+          </form>
+          <a class="form-button small-button" href="https://api.whatsapp.com/send/?phone=2349134846401&text=Hi%20Eluwa%2C%20how%20much%20is%20this%20vehicle%3F%20When%20can%20I%20come%20in%20for%20a%20test%20drive%3F&type=phone_number&app_absent=0
+" target="_blank" rel="noopener">Buy Now</a>
+        </td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+<% } %>

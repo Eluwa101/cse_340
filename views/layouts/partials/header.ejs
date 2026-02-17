@@ -5,7 +5,9 @@
     <div id="tools">
         <% if (locals.loggedin) { %>
             <% const accountName = (locals.accountData && locals.accountData.account_firstname) ? locals.accountData.account_firstname : "Account" %>
+            <% const favCount = typeof locals.favoritesCount === "number" ? locals.favoritesCount : 0 %>
             <a title="Account Management" href="/account/">Welcome <%= accountName %></a>
+            <a title="Favorites" href="/account/favorites">Favorites (<%= favCount %>)</a>
             <a title="Log out" href="/account/logout">Logout</a>
         <% } else { %>
             <a title="Click to log in" href="/account/login">My Account</a>
