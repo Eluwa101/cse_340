@@ -37,8 +37,12 @@
     <p><strong>Color:</strong> <%= vehicle.inv_color %></p>
 
     <div class="detail-actions">
-      <a class="form-button buy-now" href="https://api.whatsapp.com/send/?phone=2349134846401&text=Hi%20Eluwa%2C%20how%20much%20is%20this%20vehicle%3F%20When%20can%20I%20come%20in%20for%20a%20test%20drive%3F&type=phone_number&app_absent=0
-" target="_blank" rel="noopener">Buy Now</a>
+      <% const msg = `Hi Eluwa, what is the last price of this ${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}? When can I come in for a test drive?` %>
+      <a class="form-button buy-now"
+         href="https://api.whatsapp.com/send/?phone=2349134846401&text=<%= encodeURIComponent(msg) %>&type=phone_number&app_absent=0"
+         target="_blank" rel="noopener">
+        Buy Now
+      </a>
     </div>
   </div>
 </div>
