@@ -723,3 +723,6 @@ a.form-button.small-button{
   outline: 2px solid #005f8a;
   border-radius: 4px;
 }
+
+.stack-form { display:flex; flex-direction:column; gap:.4rem; margin-top:1rem; }
+.stack-form textarea, .stack-form input { width:100%; }

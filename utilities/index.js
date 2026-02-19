@@ -13,9 +13,9 @@ data.rows.forEach((row) => {
     list +=
         '<a href="/inv/type/' +
         row.classification_id +
-        '" title="See our inventory of ' +
+        '" title="See our selection of ' +
         row.classification_name +
-        ' vehicles">' +
+        ' food items">' +
         row.classification_name +
         "</a>"
     list += "</li>"
@@ -32,45 +32,45 @@ Util.buildClassificationGrid = async function(data){
   let grid
   if(data.length > 0){
     grid = '<ul id="inv-display">'
-    data.forEach(vehicle => { 
+    data.forEach(vehicle => {
       grid += '<li>'
-      grid +=  '<a href="../../inv/detail/'+ vehicle.inv_id 
-      + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
-      + 'details"><img src="' + vehicle.inv_thumbnail 
-      +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
-      +' on CSE Motors" /></a>'
+      grid +=  '<a href="../../inv/detail/'+ vehicle.inv_id
+      + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model
+      + ' details"><img src="' + vehicle.inv_thumbnail
+      +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model
+      +' on FFo - For Food Only" /></a>'
       grid += '<div class="namePrice">'
       grid += '<hr />'
       grid += '<h2>'
-      grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
-      + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
+      grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View '
+      + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">'
       + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>'
       grid += '</h2>'
-      grid += '<span>$' 
+      grid += '<span>$'
       + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
       grid += '</div>'
       grid += '</li>'
     })
     grid += '</ul>'
-  } else { 
-    grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
+  } else {
+    grid += '<p class="notice">Sorry, no matching food items could be found.</p>'
   }
   return grid
 }
 
 
-/* 
-Build the vehicle detail view HTML
+/*
+Build the inventory detail view HTML
 * ***************************** */
 Util.buildVehicleDetailView = async function(data){
   let detailView = '<div class="vehicle-detail-view">'
-  detailView += '<img src="' + data.inv_image + '" alt="Image of ' + data.inv_make + ' ' + data.inv_model + ' on CSE Motors" />'
+  detailView += '<img src="' + data.inv_image + '" alt="Image of ' + data.inv_make + ' ' + data.inv_model + ' on FFo - For Food Only" />'
   detailView += '<div class="vehicle-details-info">'
   detailView += '<h2>' + data.inv_year + ' ' + data.inv_make + ' ' + data.inv_model + '</h2>'
   detailView += '<p><strong>Year:</strong> ' + data.inv_year + '</p>'
   detailView += '<p><strong>Price:</strong> $' + new Intl.NumberFormat('en-US').format(data.inv_price) + '</p>'
   detailView += '<p><strong>Description:</strong> ' + data.inv_description + '</p>'
-  detailView += '<p><strong>Miles:</strong> ' + new Intl.NumberFormat('en-US').format(data.inv_miles) + '</p>'
+  detailView += '<p><strong>Unit:</strong> ' + new Intl.NumberFormat('en-US').format(data.inv_miles) + '</p>'
   detailView += '<p><strong>Color:</strong> ' + data.inv_color + '</p>'
   detailView += '</div>'
   detailView += '</div>'
