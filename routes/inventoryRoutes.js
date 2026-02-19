@@ -26,6 +26,9 @@ router.get("/type/:classificationId", handleErrors(invController.buildByClassifi
 // Route to build inventory by vehicle detail view
 router.get("/detail/:invId", handleErrors(invController.buildByVehicleId))
 
+// Route to place a food order
+router.post("/order/:invId", handleErrors(invController.createOrder))
+
 // Route to intentionally trigger a 500 error
 router.get("/error", handleErrors(invController.triggerError))
 

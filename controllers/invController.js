@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator")
 const invModel = require("../models/inventory-model")
 const favoriteModel = require("../models/favorite-model")
 const utilities = require("../utilities/")
+const orderModel = require("../models/order-model")
 
 const invCont = {}
 
@@ -18,7 +19,7 @@ invCont.buildByClassificationId = async function (req, res, next) {
   }
   const className = data[0].classification_name
   res.render("./inventory/classification", {
-    title: className + " vehicles",
+    title: className + " food items",
     nav,
     grid,
     errors: null
@@ -34,7 +35,7 @@ invCont.buildByVehicleId = async function (req, res, next) {
   const data = await invModel.getInventoryItemById(inv_id)
   let nav = await utilities.getNav()
   if (!data) {
-    return next({ status: 404, message: "Vehicle not found" })
+    return next({ status: 404, message: "Food item not found" })
   }
   let favoriteExists = false
   const accountData = req.session.accountData || res.locals.accountData
@@ -104,7 +105,7 @@ invCont.buildAddInventory = async function (req, res, next) {
   let nav = await utilities.getNav()
   const classificationList = await utilities.buildClassificationList()
   res.render("./inventory/add-inventory", {
-    title: "Add Vehicle",
+    title: "Add Food Item",
     nav,
     classificationList,
     inv_make: "",
@@ -140,10 +141,10 @@ invCont.addInventory = async function (req, res, next) {
     inv_color
   })
   if (addInvResult) {
-    req.flash("notice", `Vehicle "${inv_make} ${inv_model}" added successfully!`)
+    req.flash("notice", `Food item "${inv_make} ${inv_model}" added successfully!`)
     return res.redirect("/inv")
   } else {
-    const error = new Error("Failed to add vehicle to inventory.")
+    const error = new Error("Failed to add food item to inventory.")
     error.status = 400
     return next(error)
   }
@@ -297,6 +298,41 @@ invCont.deleteInventory = async function (req, res, next) {
   return res.redirect(`/inv/delete/${inv_id}`)
 }
 
+
+
+/* ***************************
+ *  Create a new food delivery order
+ * ************************** */
+invCont.createOrder = async function (req, res, next) {
+  const inv_id = parseInt(req.params.invId)
+  const { customer_name, customer_phone, delivery_address, quantity } = req.body
+
+  if (Number.isNaN(inv_id)) {
+    req.flash("notice", "Invalid food item selected.")
+    return res.redirect("/")
+  }
+
+  if (!customer_name || !customer_phone || !delivery_address || !quantity) {
+    req.flash("notice", "All order fields are required.")
+    return res.redirect(`/inv/detail/${inv_id}`)
+  }
+
+  const order = await orderModel.createOrder({
+    inv_id,
+    customer_name: customer_name.trim(),
+    customer_phone: customer_phone.trim(),
+    delivery_address: delivery_address.trim(),
+    quantity: parseInt(quantity),
+  })
+
+  if (order) {
+    req.flash("notice", "Order placed successfully. FFo will contact you shortly for delivery confirmation.")
+    return res.redirect(`/inv/detail/${inv_id}`)
+  }
+
+  req.flash("notice", "Unable to place order right now. Please try again.")
+  return res.redirect(`/inv/detail/${inv_id}`)
+}
 /* ***************************
  *  Intentional Error Trigger
  * ************************** */

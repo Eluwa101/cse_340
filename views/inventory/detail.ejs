@@ -1,12 +1,10 @@
-<!-- main content heading -->
  <% if (title) { %>
    <h1><%= title %></h1><% } else { %>
     res.redirect("/")<% } %>
 
-<!-- Vehicle Detail View -->
 <div class="vehicle-detail-view">
   <div class="vehicle-media">
-    <img src="<%= vehicle.inv_image %>" alt="Image of <%= vehicle.inv_make %> <%= vehicle.inv_model %> on CSE Motors" />
+    <img src="<%= vehicle.inv_image %>" alt="Image of <%= vehicle.inv_make %> <%= vehicle.inv_model %> on FFo - For Food Only" />
 
     <div class="media-actions">
 <% if (locals.loggedin) { %>
@@ -23,29 +21,36 @@
         </form>
       <% } %>
     <% } else { %>
-      <p><a href="/account/login">Log in</a> to save this vehicle to your favorites.</p>
+      <p><a href="/account/login">Log in</a> to save this item to your favorites.</p>
     <% } %>
     </div>
   </div>
 
   <div class="vehicle-details-info">
-    <h2><%= vehicle.inv_year %> <%= vehicle.inv_make %> <%= vehicle.inv_model %></h2>
-    <p><strong>Year:</strong> <%= vehicle.inv_year %></p>
-    <p><strong>Price:</strong> $<%= new Intl.NumberFormat('en-US').format(vehicle.inv_price) %></p>
+    <h2><%= vehicle.inv_make %> <%= vehicle.inv_model %></h2>
+    <p><strong>Category Year Label:</strong> <%= vehicle.inv_year %></p>
+    <p><strong>Price:</strong> ₦<%= new Intl.NumberFormat('en-NG').format(vehicle.inv_price) %></p>
     <p><strong>Description:</strong> <%= vehicle.inv_description %></p>
-    <p><strong>Miles:</strong> <%= new Intl.NumberFormat('en-US').format(vehicle.inv_miles) %></p>
-    <p><strong>Color:</strong> <%= vehicle.inv_color %></p>
+    <p><strong>Quantity in stock:</strong> <%= new Intl.NumberFormat('en-US').format(vehicle.inv_miles) %></p>
+    <p><strong>Package:</strong> <%= vehicle.inv_color %></p>
 
     <div class="detail-actions">
-      <% const msg = `Hi Eluwa, what is the last price of this ${vehicle.inv_year} ${vehicle.inv_make} ${vehicle.inv_model}? When can I come in for a test drive?` %>
-      <a class="form-button buy-now"
-         href="https://api.whatsapp.com/send/?phone=2349134846401&text=<%= encodeURIComponent(msg) %>&type=phone_number&app_absent=0"
-         target="_blank" rel="noopener">
-        Buy Now
-      </a>
+      <form method="post" action="/inv/order/<%= vehicle.inv_id %>" class="stack-form">
+        <h3>Place delivery order</h3>
+        <label for="customer_name">Full name</label>
+        <input id="customer_name" name="customer_name" type="text" required>
+
+        <label for="customer_phone">Phone number</label>
+        <input id="customer_phone" name="customer_phone" type="tel" required>
+
+        <label for="delivery_address">Delivery address</label>
+        <textarea id="delivery_address" name="delivery_address" rows="3" required></textarea>
+
+        <label for="quantity">Quantity</label>
+        <input id="quantity" name="quantity" type="number" min="1" value="1" required>
+
+        <button class="form-button buy-now" type="submit">Order for Delivery</button>
+      </form>
     </div>
   </div>
 </div>
-
-<!-- message display -->
-<%# message() %>
